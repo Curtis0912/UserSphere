@@ -11,17 +11,20 @@ export default [
       },
       {component: './404'}],
   },
-  {path: '/welcome', icon: 'smile', component: './Welcome'},
+  {path: '/welcome', name:'欢迎', icon: 'smile', component: './Welcome'},
   {
     path: '/admin',
+    name: '管理',
     icon: 'crown',
     access: 'canAdmin',
+    component: './Admin',
     routes: [
+      {path: '/admin/user-manage', name: '用户管理', icon: 'smile', component: './Admin/UserManage'},
       {path: '/admin/sub-page', icon: 'smile', component: './Welcome'},
       {component: './404'},
     ],
   },
-  {icon: 'table', path: '/list', component: './TableList'},
+  {icon: 'table', name:'查询表格', path: '/list', component: './TableList'},
   {path: '/', redirect: '/welcome'},
   {component: './404'},
 ];

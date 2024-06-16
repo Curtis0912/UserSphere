@@ -5,9 +5,9 @@ import com.curtis.userspherebackend.model.domain.User;
 import com.curtis.userspherebackend.model.domain.request.UserLoginRequest;
 import com.curtis.userspherebackend.model.domain.request.UserRegisterRequest;
 import com.curtis.userspherebackend.service.UserService;
-import com.curtis.userspherebackend.service.impl.UserServiceImpl;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
+
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
@@ -52,6 +52,15 @@ public class UserController {
             return null;
         }
         return userService.userLogin(userAccount, userPassword,httpServletRequest);
+    }
+
+    //注销
+    @PostMapping("/logout")
+    public Integer userLogout(HttpServletRequest httpServletRequest){
+        if(httpServletRequest == null){
+            return null;
+        }
+        return userService.userLogout(httpServletRequest);
     }
 
     //获取用户登录态
