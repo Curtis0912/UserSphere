@@ -53,7 +53,6 @@ const Login: React.FC = () => {
       message.error(defaultLoginFailureMessage);
     }
   };
-
   return (
     <div className={styles.container}>
       <div className={styles.content}>

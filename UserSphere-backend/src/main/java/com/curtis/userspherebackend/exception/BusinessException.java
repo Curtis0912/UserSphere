@@ -22,7 +22,6 @@ public class BusinessException extends RuntimeException{
         this.code = errorCode.getCode();
         this.description = description;
     }
-
     public int getCode() {
         return code;
     }

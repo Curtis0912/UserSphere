@@ -30,7 +30,6 @@ request.interceptors.request.use((url, options): any => {
     },
   };
 });
-
 /**
  * 所有响应拦截器
  */
