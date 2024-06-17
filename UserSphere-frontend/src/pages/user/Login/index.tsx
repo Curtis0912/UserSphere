@@ -9,24 +9,13 @@ import {
   ProFormCheckbox,
   ProFormText,
 } from '@ant-design/pro-components';
-import { Alert, Divider, message, Space, Tabs } from 'antd';
+import { Divider, message, Space, Tabs } from 'antd';
 import React, { useState } from 'react';
 import { history, Link, useModel } from 'umi';
 import styles from './index.less';
-const LoginMessage: React.FC<{
-  content: string;
-}> = ({ content }) => (
-  <Alert
-    style={{
-      marginBottom: 24,
-    }}
-    message={content}
-    type="error"
-    showIcon
-  />
-);
+
 const Login: React.FC = () => {
-  const [userLoginState, setUserLoginState] = useState<API.LoginResult>({});
+  // const [setUserLoginState] = useState<API.LoginResult>({});
   const [type, setType] = useState<string>('account');
   const { initialState, setInitialState } = useModel('@@initialState');
   const fetchUserInfo = async () => {
@@ -59,14 +48,12 @@ const Login: React.FC = () => {
         return;
       }
       console.log(user);
-      // 如果失败去设置用户错误信息
-      setUserLoginState(user);
     } catch (error) {
       const defaultLoginFailureMessage = '登录失败，请重试！';
       message.error(defaultLoginFailureMessage);
     }
   };
-  const { status, type: loginType } = userLoginState;
+
   return (
     <div className={styles.container}>
       <div className={styles.content}>
@@ -85,9 +72,6 @@ const Login: React.FC = () => {
             <Tabs.TabPane key="account" tab={'账户密码登录'} />
           </Tabs>
 
-          {status === 'error' && loginType === 'account' && (
-            <LoginMessage content={'错误的用户名和密码'} />
-          )}
           {type === 'account' && (
             <>
               <ProFormText
