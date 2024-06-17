@@ -77,7 +77,7 @@ public class User implements Serializable {
     /**
      * 是否删除 
      */
-    @TableLogic
+    @TableLogic//逻辑删除
     private Integer isDeleted;
 
     @TableField(exist = false)

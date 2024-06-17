@@ -14,7 +14,6 @@ import styles from './index.less';
 import {register} from "@/services/ant-design-pro/api";
 
 const Register: React.FC = () => {
-  const [userLoginState, setUserLoginState] = useState<API.LoginResult>({});
   const [type, setType] = useState<string>('account');
 
   //表单提交数据
@@ -22,14 +21,14 @@ const Register: React.FC = () => {
     //校验
     const {userPassword,checkPassword} = values;
     if(userPassword !== checkPassword){
-      message.success("两次密码不一致");
+      message.error("两次密码不一致");
       return;
     }
     try {
       // 注册
       const id = await register(values);
 
-      if (id > 0) {
+      if (id) {
         const defaultLoginSuccessMessage = '注册成功！';
         message.success(defaultLoginSuccessMessage);
         /** 此方法会跳转到 redirect 参数所在的位置 */
@@ -40,12 +39,10 @@ const Register: React.FC = () => {
           query,
         });
         return;
-      }else{
-        throw new Error(`register error id = ${id}`);
       }
-    } catch (error) {
+    } catch (error: any) {
       const defaultLoginFailureMessage = '注册失败，请重试！';
-      message.error(defaultLoginFailureMessage);
+      message.error(error.message ?? defaultLoginFailureMessage);
     }
   };
   return (

@@ -70,6 +70,16 @@ declare namespace API {
     type?: string;
   };
 
+  /**
+   * 对接后端通用返回类
+   */
+  type BaseResponse<T> = {
+    code: number;
+    message: string;
+    data: T;
+    description: string;
+  }
+
   type ErrorResponse = {
     /** 业务约定的错误码 */
     errorCode: string;

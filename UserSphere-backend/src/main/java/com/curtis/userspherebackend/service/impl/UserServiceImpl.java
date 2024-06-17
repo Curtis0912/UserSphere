@@ -2,6 +2,8 @@ package com.curtis.userspherebackend.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.curtis.userspherebackend.common.ErrorCode;
+import com.curtis.userspherebackend.exception.BusinessException;
 import com.curtis.userspherebackend.model.domain.User;
 import com.curtis.userspherebackend.service.UserService;
 import com.curtis.userspherebackend.mapper.UserMapper;
@@ -39,28 +41,28 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         //1. 校验
         //判断是否为空
         if(StringUtils.isAnyBlank(userAccount, userPassword, checkPassword)){
-            return -1;
+            throw new BusinessException(ErrorCode.NULL_ERROR,"参数为空");
         }
         //账户  密码   校验密码长度是否符合
         if(userAccount.length() < 4 || userPassword.length() < 8  || checkPassword.length() < 8){
-            return -1;
+            throw new BusinessException(ErrorCode.PARAMS_ERROR,"账号、密码或校验密码不符合");
         }
         //判断账户是否包含特殊字符
         String validPattern = "[`~!@#$%^&*()+=|{}':;',\\[\\].<>/?~！@#￥%……&*()——+|{}【】‘；：”“’。，、？\\\\]";
         Matcher matcher = Pattern.compile(validPattern).matcher(userAccount);
         if(matcher.find()){//如果找到则返回-1
-            return -1;
+            throw new BusinessException(ErrorCode.PARAMS_ERROR,"账号包含特殊字符");
         }
         //判断密码和校验密码是否相同
         if(!userPassword.equals(checkPassword)){
-            return -1;
+            throw new BusinessException(ErrorCode.PARAMS_ERROR,"密码和校验密码不一致");
         }
         //判断账号是否重复
         QueryWrapper<User> userQueryWrapper = new QueryWrapper<>();
         userQueryWrapper.eq("userAccount",userAccount);
         long count = userMapper.selectCount(userQueryWrapper);
         if(count > 0){
-            return -1;
+            throw new BusinessException(ErrorCode.PARAMS_ERROR,"账号重复");
         }
 
         //2. 加密
@@ -72,7 +74,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         user.setUserPassword(encryPassword);
         boolean saveResult = this.save(user);
         if(!saveResult){
-            return -1;
+            throw new BusinessException(ErrorCode.PARAMS_ERROR,"注册失败");
         }
         return user.getId();
 
@@ -83,17 +85,17 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         //1. 校验
         //判断是否为空
         if(StringUtils.isAnyBlank(userAccount, userPassword)){
-            return null;
+            throw new BusinessException(ErrorCode.NULL_ERROR);
         }
         //账户  密码长度是否符合
         if(userAccount.length() < 4 || userPassword.length() < 8){
-            return null;
+            throw new BusinessException(ErrorCode.PARAMS_ERROR,"账号、密码或校验密码不符合");
         }
         //判断账户是否包含特殊字符
         String validPattern = "[`~!@#$%^&*()+=|{}':;',\\[\\].<>/?~！@#￥%……&*()——+|{}【】‘；：”“’。，、？\\\\]";
         Matcher matcher = Pattern.compile(validPattern).matcher(userAccount);
         if(matcher.find()){//如果找到则返回-1
-            return null;
+            throw new BusinessException(ErrorCode.PARAMS_ERROR,"账号包含特殊字符");
         }
 
         //2. 加密
@@ -105,7 +107,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         User user = userMapper.selectOne(userQueryWrapper);
         if(user == null){
             log.info("user login failed,userAccount cannot match userPassword");
-            return null;
+            throw new BusinessException(ErrorCode.NULL_ERROR,"用户不存在或密码错误");
         }
 
         //3. 脱敏
@@ -121,7 +123,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     @Override
     public User getSafeUser(User user){
         if(user == null){
-            return null;
+            throw new BusinessException(ErrorCode.NULL_ERROR,"用户不存在");
         }
         User safeUser = new User();
         safeUser.setId(user.getId());
