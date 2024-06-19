@@ -1,8 +1,0 @@
-spring:
-  datasource:
-    driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://gz-cynosdbmysql-grp-ddqm7xn7.sql.tencentcdb.com:29987/user_sphere
-    username: root
-    password: Zjh135792468
-  session:
-    timeout: 86400
