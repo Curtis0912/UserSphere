@@ -1,0 +1,12 @@
+-------------------------------------------------------------------------------
+Test set: com.curtis.userspherebackend.service.UserServiceTest
+-------------------------------------------------------------------------------
+Tests run: 2, Failures: 0, Errors: 2, Skipped: 0, Time elapsed: 10.543 s <<< FAILURE! - in com.curtis.userspherebackend.service.UserServiceTest
+testAddUser  Time elapsed: 0.635 s  <<< ERROR!
+java.lang.NullPointerException
+	at com.curtis.userspherebackend.service.UserServiceTest.testAddUser(UserServiceTest.java:26)
+
+userRegister  Time elapsed: 0.004 s  <<< ERROR!
+java.lang.NullPointerException
+	at com.curtis.userspherebackend.service.UserServiceTest.userRegister(UserServiceTest.java:39)
+
