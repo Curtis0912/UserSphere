@@ -13,7 +13,7 @@ import { message } from 'antd';
  */
 const request = extend({
   credentials: 'include', // 默认请求是否带上cookie
-  prefix: process.env.NODE_ENV === 'production' ? 'http://usersphere.cn' : undefined
+  prefix: process.env.NODE_ENV === 'production' ? 'http://111.230.49.66:8080' : undefined
   // requestType: 'form',
 });
 
